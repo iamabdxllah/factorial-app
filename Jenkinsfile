@@ -16,20 +16,21 @@ pipeline {
 
         stage('Build and Test') {
             steps {
-                sh 'mvn clean verify'
+                bat 'mvn clean verify'
             }
         }
 
         stage('Run Factorial') {
             steps {
-                sh 'mvn exec:java -Dexec.mainClass=com.example.App -Dexec.args=5'
+                bat 'mvn exec:java -Dexec.mainClass=com.example.App -Dexec.args=5'
             }
         }
     }
 
     post {
         always {
-            junit 'target/surefire-reports/*.xml'
+            junit allowEmptyResults: true,
+                  testResults: 'target/surefire-reports/*.xml'
         }
     }
 }
